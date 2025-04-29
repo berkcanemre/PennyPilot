@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-// Class to manage transactions in memory and interact with the file handler
+// Holds and manages all transactions in memory
 
 import java.util.List;
 
@@ -8,22 +8,32 @@ public class Ledger {
     private List<Transaction> transactions;
     private TransactionFileHandler fileHandler;
 
-    // Constructor - loads existing transactions from file
+    // Load transactions from file on start
     public Ledger() {
         fileHandler = new TransactionFileHandler();
         transactions = fileHandler.loadTransactions();
     }
 
-    // Display all transactions (newest first)
+    // Show all transactions, newest first
     public void displayAllTransactions() {
+        if (transactions.isEmpty()) {
+            System.out.println("No transactions found.");
+            return;
+        }
+
         for (int i = transactions.size() - 1; i >= 0; i--) {
             System.out.println(transactions.get(i));
         }
     }
 
-    // Add a new transaction (and save to file immediately)
+    // Add a new transaction to the ledger and file
     public void addTransaction(Transaction transaction) {
         transactions.add(transaction);
         fileHandler.saveTransaction(transaction);
+    }
+
+    // Getter for later use (Day 3: filtering, reports)
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }

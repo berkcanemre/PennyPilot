@@ -21,7 +21,7 @@ public class Transaction {
         this.amount = amount;
     }
 
-    // Convert a line from the CSV file into a Transaction object
+    // Parse a transaction from a CSV-formatted line
     public static Transaction fromCSV(String line) {
         String[] parts = line.split("\\|");
         LocalDate date = LocalDate.parse(parts[0]);
@@ -32,14 +32,27 @@ public class Transaction {
         return new Transaction(date, time, description, vendor, amount);
     }
 
-    // Convert this Transaction object into a line for the CSV file
+    // Convert a transaction to a CSV-formatted string
     public String toCSV() {
         return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
     }
 
-    // Nice printable format for displaying in the app
+    // For printing to console
     @Override
     public String toString() {
         return date + " " + time + " | " + description + " | " + vendor + " | " + amount;
+    }
+
+    // Getters for filtering/searching (used in later features)
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public String getVendor() {
+        return vendor;
     }
 }

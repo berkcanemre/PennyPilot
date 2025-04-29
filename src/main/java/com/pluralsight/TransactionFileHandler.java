@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-// Class to handle reading and writing the transactions.csv file
+// Handles loading and saving transactions to the CSV file
 
 import java.io.*;
 import java.util.ArrayList;
@@ -9,7 +9,7 @@ import java.util.List;
 public class TransactionFileHandler {
     private static final String FILE_PATH = "src/main/resources/transactions.csv";
 
-    // Load all transactions from the CSV file into a list
+    // Load all transactions from file
     public List<Transaction> loadTransactions() {
         List<Transaction> transactions = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
@@ -23,7 +23,7 @@ public class TransactionFileHandler {
         return transactions;
     }
 
-    // Save a new transaction by appending it to the CSV file
+    // Save a transaction to file
     public void saveTransaction(Transaction transaction) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
             writer.write(transaction.toCSV());

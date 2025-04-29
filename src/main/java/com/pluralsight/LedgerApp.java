@@ -1,6 +1,6 @@
 package com.pluralsight;
 
-// Main class to start the PennyPilot application
+// Main entry point for PennyPilot
 
 public class LedgerApp {
     public static void main(String[] args) {
@@ -8,6 +8,6 @@ public class LedgerApp {
         MenuHandler menu = new MenuHandler(ledger);
 
         System.out.println("Welcome to PennyPilot");
-        menu.start();  // Start the Home Menu
+        menu.start();
     }
 }
