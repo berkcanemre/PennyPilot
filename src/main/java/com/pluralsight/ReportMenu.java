@@ -19,7 +19,9 @@ public class ReportMenu {
         String choice = "";
 
         while (!choice.equals("0")) {
-            System.out.println("\n=== Reports Menu ===");
+            System.out.print("------------------------------------------------------------------------------");
+            System.out.println("\n---------------------------> REPORTS MENU <-----------------------------------");
+            System.out.println("------------------------------------------------------------------------------");
             System.out.println("1) Month To Date");
             System.out.println("2) Previous Month");
             System.out.println("3) Year To Date");
@@ -56,13 +58,13 @@ public class ReportMenu {
                 case "0":
                     break;
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("Invalid choice. Please select options displayed on the menu");
             }
         }
     }
 
     private void filterByDate(LocalDate start, LocalDate end) {
-        System.out.println("\n=== Transactions from " + start + " to " + end + " ===");
+        System.out.println("\n----->Transactions from " + start + " to " + end);
         for (Transaction t : transactions) {
             if (!t.getDate().isBefore(start) && !t.getDate().isAfter(end)) {
                 System.out.println(t);
@@ -71,9 +73,9 @@ public class ReportMenu {
     }
 
     private void searchByVendor() {
-        System.out.print("Enter vendor name to search: ");
+        System.out.print("----->Enter vendor name to search: ");
         String vendor = scanner.nextLine().toLowerCase();
-        System.out.println("\n=== Transactions for vendor: " + vendor + " ===");
+        System.out.println("\n----->Transactions for vendor: " + vendor);
         for (Transaction t : transactions) {
             if (t.getVendor().toLowerCase().contains(vendor)) {
                 System.out.println(t);
@@ -82,23 +84,28 @@ public class ReportMenu {
     }
 
     private void customSearch() {
-        System.out.println("\n=== Custom Search ===");
-        System.out.print("Start date (YYYY-MM-DD): ");
+        System.out.print("---------------------------------------------------------------------------------");
+        System.out.println("\n---------------------------> DETAILED SEARCH <-----------------------------------");
+        System.out.println("---------------------------------------------------------------------------------");
+        System.out.println("Please enter at least one input to search: ");
+        System.out.print("\"Please enter a Start date (YYYY-MM-DD): ");
         String startInput = scanner.nextLine().trim();
-        System.out.print("End date (YYYY-MM-DD): ");
+        System.out.print("\"Please enter an End date (YYYY-MM-DD): ");
         String endInput = scanner.nextLine().trim();
-        System.out.print("Description (optional): ");
+        System.out.print("\"Please enter a Description (optional): ");
         String description = scanner.nextLine().trim().toLowerCase();
-        System.out.print("Vendor (optional): ");
+        System.out.print("\"Please enter a Vendor (optional): ");
         String vendor = scanner.nextLine().trim().toLowerCase();
-        System.out.print("Amount (optional): ");
+        System.out.print("\"Please enter an Amount (optional): ");
         String amountInput = scanner.nextLine().trim();
 
         LocalDate startDate = startInput.isEmpty() ? LocalDate.MIN : LocalDate.parse(startInput);
         LocalDate endDate = endInput.isEmpty() ? LocalDate.MAX : LocalDate.parse(endInput);
         Double amount = amountInput.isEmpty() ? null : Double.parseDouble(amountInput);
 
-        System.out.println("\n=== Custom Search Results ===");
+        System.out.print("-----------------------------------------------------------------------------------------");
+        System.out.println("\n---------------------------> DETAILED SEARCH RESULTS <-----------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------------");
         for (Transaction t : transactions) {
             boolean matches = true;
 

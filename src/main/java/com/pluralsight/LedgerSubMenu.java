@@ -16,18 +16,19 @@ public class LedgerSubMenu {
     public void show() {
         String choice = "";
         while (!choice.equalsIgnoreCase("H")) {
-            System.out.println("\n=== Ledger Menu ===");
-            System.out.println("A) All Entries");
-            System.out.println("D) Deposits");
-            System.out.println("P) Payments");
-            System.out.println("R) Reports");
-            System.out.println("H) Home");
-            System.out.print("Enter choice: ");
+            System.out.print("------------------------------------------------------------------------------");
+            System.out.println("\n---------------------------> LEDGER MENU <------------------------------------");
+            System.out.println("------------------------------------------------------------------------------");
+            System.out.println("Press 'A' to display All Entries");
+            System.out.println("Press 'D' to display Deposits");
+            System.out.println("Press 'P' to display Payments");
+            System.out.println("Press 'R' to display Reports");
+            System.out.println("Press 'H' to return Home Menu");
             choice = scanner.nextLine().trim();
 
             switch (choice.toUpperCase()) {
                 case "A":
-                    printTransactions(ledger.getTransactions());
+                    printTransactions(ledger.getAllTransactions());
                     break;
                 case "D":
                     printTransactions(ledger.getDeposits());
@@ -36,19 +37,21 @@ public class LedgerSubMenu {
                     printTransactions(ledger.getPayments());
                     break;
                 case "R":
-                    ReportMenu reportMenu = new ReportMenu(ledger.getTransactions());
+                    ReportMenu reportMenu = new ReportMenu(ledger.getAllTransactions());
                     reportMenu.show();
                     break;
                 case "H":
                     break;
                 default:
-                    System.out.println("Invalid option.");
+                    System.out.println("Invalid choice. Please select options displayed on the menu");
             }
         }
     }
 
     private void printTransactions(List<Transaction> list) {
-        System.out.println("\n=== Transactions ===");
+        System.out.print("------------------------------------------------------------------------------");
+        System.out.println("\n---------------------------> TRANSACTIONS <-----------------------------------");
+        System.out.println("------------------------------------------------------------------------------");
         for (Transaction t : list) {
             System.out.println(t);
         }
