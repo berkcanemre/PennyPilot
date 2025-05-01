@@ -3,8 +3,10 @@ package com.pluralsight;
 // This class handles the management of transactions.
 // Responsibilities: load from file, save new transaction, filter by type.
 //Ledger class acts as a controller: it handles file I/O, filtering, and sorting.
+
 import java.io.*;
 import java.util.*;
+
 /**
  * Manages a list of transactions and handles loading/saving from CSV.
  */
@@ -23,7 +25,10 @@ public class Ledger {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                transactions.add(Transaction.fromCSV(line));
+                Transaction t = Transaction.fromCSV(line);
+                if (t != null) { // Only add valid transactions
+                    transactions.add(t);
+                }
             }
         } catch (FileNotFoundException e) {
             // If file doesn't exist, it will be created when saving
@@ -38,7 +43,7 @@ public class Ledger {
             writer.write(t.toCSV());
             writer.newLine();
         } catch (IOException e) {
-            System.out.println("Error writing file.Failed to save transaction: " + e.getMessage());
+            System.out.println("Error writing file. Failed to save transaction: " + e.getMessage());
         }
     }
 

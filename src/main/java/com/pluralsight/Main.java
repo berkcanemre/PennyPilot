@@ -3,10 +3,11 @@ package com.pluralsight;
 //This class provides the main interface of the PennyPilot CLI app.
 //It allows users to add deposits/payments and navigate to the ledger menu.
 //Main class is the user interface. It shows a menu, reads input, and interacts with the backend classes.
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Scanner;
-import java.util.List;
+
 /**
  * Main class that handles user interface and application logic.
  */
@@ -66,15 +67,8 @@ public class Main {
 
         // Create and save transaction
         Transaction t = new Transaction(LocalDate.now(), LocalTime.now(), description, vendor, amount);
-        ledger.saveTransaction(t);
+        ledger.saveTransaction(t); // Save the transaction to the file
+        ledger.loadTransactions(); // Reload transactions from the file to ensure the in-memory list is updated
         System.out.println("Transaction saved.");
-    }
-    // Show the ledger
-    private static void displayLedger(Scanner scanner, Ledger ledger) {
-        List<Transaction> all = ledger.getAllTransactions();
-        System.out.println("\n-----> Ledger <-----");
-        for (Transaction t : all) {
-            System.out.println(t);
-        }
     }
 }

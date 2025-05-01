@@ -1,17 +1,13 @@
 package com.pluralsight;
 
-// This class represents a financial transaction in the ledger system.
-// Each transaction stores the date, time, description, vendor, and amount.
-//The Transaction class encapsulates individual entries and provides reusable parsing and formatting.
-
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Represents a single financial transaction.
  */
 public class Transaction {
-    // Core attributes of a transaction
-    // Fields to store the transaction details
     private LocalDate date;          // Date of the transaction
     private LocalTime time;          // Time of the transaction
     private String description;      // Description (e.g., invoice, item purchased)
@@ -26,28 +22,50 @@ public class Transaction {
         this.vendor = vendor;
         this.amount = amount;
     }
-    // Parses a transaction from a CSV string (method to parse a transaction from a CSV line)
+
+    // Parses a transaction from a CSV string
     public static Transaction fromCSV(String line) {
-        String[] parts = line.split("\\|"); // Split the line by '|'
-        return new Transaction(
-                LocalDate.parse(parts[0]),
-                LocalTime.parse(parts[1]),
-                parts[2],
-                parts[3],
-                Double.parseDouble(parts[4])
-        );
-    }
-    // Converts the transaction to a line suitable for saving in a CSV file
-    public String toCSV() {
-        return date + "|" + time + "|" + description + "|" + vendor + "|" + amount;
-    }
-    // Returns a readable string for displaying transactions in console
-    @Override
-    public String toString() {
-        return date + " " + time + " | " + description + " | " + vendor + " | " + amount;
+        // Split the line by '|'
+        String[] parts = line.split("\\|");
+
+        // Ensure the parts length is valid
+        if (parts.length != 5) {
+            throw new IllegalArgumentException("Invalid CSV format, expected 5 fields but got " + parts.length);
+        }
+
+        try {
+            // Parse each part into the respective field
+            LocalDate date = LocalDate.parse(parts[0]);
+            // Parse the time with the correct format
+            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            LocalTime time = LocalTime.parse(parts[1], timeFormatter);
+            String description = parts[2];
+            String vendor = parts[3];
+            double amount = Double.parseDouble(parts[4]);  // Parse amount
+
+            return new Transaction(date, time, description, vendor, amount);
+        } catch (Exception e) {
+            System.out.println("Error parsing line: " + line);
+            throw e;  // Re-throw the exception after logging it
+        }
     }
 
-    // Getter methods (used for sorting and filtering)
+    // Converts the transaction to a line suitable for saving in a CSV file
+    public String toCSV() {
+        // Format time to show only hours, minutes, and seconds (HH:mm:ss)
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return date + "|" + time.format(timeFormatter) + "|" + description + "|" + vendor + "|" + amount;
+    }
+
+    // Returns a readable string for displaying transactions in the console
+    @Override
+    public String toString() {
+        // Format time to show only hours, minutes, and seconds (HH:mm:ss)
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        return date + " " + time.format(timeFormatter) + " | " + description + " | " + vendor + " | " + amount;
+    }
+
+    // Getter methods
     public LocalDate getDate() {
         return date;
     }
